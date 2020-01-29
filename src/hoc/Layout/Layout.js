@@ -1,12 +1,15 @@
 import React from 'react';
 
 import Aux from './../Aux/Aux'
-import Home from './../../pages/Home/Home'
+import Navigation from './../../components/Navigation/Navigation';
 
-function Layout() {
+function Layout(props) {
   return (
     <Aux>
-      <Home />
+      <Navigation />
+      <main>
+        {props.children}
+      </main>
     </Aux>
   )
 }
