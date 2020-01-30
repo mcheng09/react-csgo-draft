@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import classes from './Players.module.scss';
+
 function Players() {
   const [players, setPlayers] = useState([]);
 
@@ -31,7 +33,7 @@ function Players() {
   })
 
   return (
-    <div>
+    <div className={classes.Players}>
       { eachPlayer }
     </div>
   )
