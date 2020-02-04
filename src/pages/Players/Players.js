@@ -10,26 +10,26 @@ function Players() {
   const [maxPage, setMaxPage] = useState(0);
 
   const setPage = (currPage) => {
-    let allPlayers = [...players];
-    let spliceIndex = currPage * 10;
-    let newPlayers = allPlayers.splice(spliceIndex, 10);
+    let allPlayers = {...players};
     setCurrPage(currPage);
-    setPageOfPlayers(newPlayers);
+    setPageOfPlayers(allPlayers[currPage]);
   }
 
   useEffect(() => {
     axios.get('https://api.sportsdata.io/v3/csgo/scores/json/Players?key=47d152dbd924490bbf6f6d8fae797690')
       .then(function(res) {
         const allPlayers = [...res.data];
-        const playerList = allPlayers.splice(0, 10);
-        const updatedPlayers = playerList.map( player => {
-          return {
-            ...player
-          }
-        });
-        const maxPages = Math.floor(res.data.length / 10);
-        setPlayers(res.data);
-        setPageOfPlayers(updatedPlayers);
+        const allPlayersMap = {};
+
+        allPlayers.forEach((player, i) => {
+          let key = Math.floor(i / 10);
+          if (!allPlayersMap.hasOwnProperty(key)) allPlayersMap[key] = [player];
+          else allPlayersMap[key].push(player)
+        })
+        const maxPages = Math.floor(allPlayers / 10);
+
+        setPlayers(allPlayersMap);
+        setPageOfPlayers(allPlayersMap[0]);
         setMaxPage(maxPages);
       })
       .catch(function(error) {
@@ -40,11 +40,12 @@ function Players() {
       })
   }, []);
 
-  let eachPlayer = pageOfPlayers.map((player, i) => {
+  const eachPlayer = pageOfPlayers.map((player, i) => {
     return (
       <p key={'player' + i}>Player Name: {player.CommonName} - {player.MatchName} - {player.BirthCountry}</p>
     )
   })
+
 
   return (
     <div className={classes.Players}>
