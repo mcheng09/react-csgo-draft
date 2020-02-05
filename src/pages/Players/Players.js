@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import Pagination from './../../hoc/Pagination/Pagination'
 import classes from './Players.module.scss';
 
 function Players() {
@@ -54,6 +55,7 @@ function Players() {
       <button onClick={() => setPage(currPage - 1)} disabled={currPage < 1}>Previous</button>
       <button onClick={() => setPage(currPage + 1)} disabled={currPage >= maxPage}>Next</button>
       <button onClick={() => setPage(maxPage)} disabled={currPage >= maxPage}>Last</button>
+      <Pagination />
     </div>
   )
 }
