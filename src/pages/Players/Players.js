@@ -27,7 +27,7 @@ function Players() {
           if (!allPlayersMap.hasOwnProperty(key)) allPlayersMap[key] = [player];
           else allPlayersMap[key].push(player)
         })
-        const maxPages = Math.floor(allPlayers / 10);
+        const maxPages = Math.floor(allPlayers.length / 10);
 
         setPlayers(allPlayersMap);
         setPageOfPlayers(allPlayersMap[0]);
@@ -35,9 +35,6 @@ function Players() {
       })
       .catch(function(error) {
         console.log(error);
-      })
-      .finally(function() {
-        console.log('finally done');
       })
   }, []);
 
@@ -51,11 +48,10 @@ function Players() {
   return (
     <div className={classes.Players}>
       { eachPlayer }
-      <button onClick={() => setPage(0)} disabled={currPage < 1}>First</button>
-      <button onClick={() => setPage(currPage - 1)} disabled={currPage < 1}>Previous</button>
-      <button onClick={() => setPage(currPage + 1)} disabled={currPage >= maxPage}>Next</button>
-      <button onClick={() => setPage(maxPage)} disabled={currPage >= maxPage}>Last</button>
-      <Pagination />
+      <Pagination
+        click={setPage}
+        currIndex={currPage}
+        maxIndex={maxPage} />
     </div>
   )
 }
