@@ -1,5 +1,7 @@
 import React from 'react';
 
+import classes from './Pagination.module.scss';
+
 function Pagination (props) {
 
   const numBtns = (num) => {
@@ -7,13 +9,14 @@ function Pagination (props) {
     for(let i = 0; i <= num; i++){
       btns.push(<button
         key={'button' + i}
-        onClick={() => props.click(i)} >{i + 1}</button>)
+        onClick={() => props.click(i)}
+        className={i === props.currIndex ? classes.active : null} >{i + 1}</button>)
     }
     return btns;
   }
 
   return (
-    <div>
+    <div className={classes.Pagination}>
       <button onClick={() => props.click(0)} disabled={props.currIndex < 1}>First</button>
       <button onClick={() => props.click(props.currIndex - 1)} disabled={props.currIndex < 1}>Previous</button>
       { numBtns(props.maxIndex) }
