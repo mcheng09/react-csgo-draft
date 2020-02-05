@@ -1,6 +1,12 @@
 .Pagination {
-  background: lightgreen;
+  display: flex;
+  justify-content: center;
+  padding: 30px;
 
+  Button {
+      width: 50px;
+      margin: 0 4px;
+  }
   .active {
     color: red;
   }
