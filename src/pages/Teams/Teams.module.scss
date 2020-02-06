@@ -1,0 +1,13 @@
+.Teams {
+  p {
+    margin: 0;
+    padding: 0;
+
+    &:nth-child(odd) {
+      background: lightblue;
+    }
+    &:nth-child(even) {
+      background: lightgrey;
+    }
+  }
+}
