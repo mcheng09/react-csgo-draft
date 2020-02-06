@@ -5,6 +5,7 @@ import './App.css';
 import Layout from './hoc/Layout/Layout';
 import HomePage from './pages/Home/Home';
 import PlayersPage from './pages/Players/Players'
+import TeamsPage from './pages/Teams/Teams'
 import ContactPage from './pages/Contact/Contact'
 
 
@@ -15,6 +16,7 @@ function App() {
         <Layout>
             <Switch>
               <Route path='/players' component={PlayersPage} />
+              <Route path='/teams' component={TeamsPage} />
               <Route path='/contact' component={ContactPage} />
               <Route path='/' component={HomePage} />
             </Switch>
