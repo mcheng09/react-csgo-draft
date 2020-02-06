@@ -6,14 +6,14 @@ import classes from './Players.module.scss';
 
 function Players() {
   const [players, setPlayers] = useState([]);
-  const [pageOfPlayers, setPageOfPlayers] = useState([]);
-  const [currPage, setCurrPage] = useState(0);
-  const [maxPage, setMaxPage] = useState(0);
+  const [indexOfPlayers, setindexOfPlayers] = useState([]);
+  const [currIndex, setCurrIndex] = useState(0);
+  const [maxIndex, setMaxIndex] = useState(0);
 
-  const setPage = (currPage) => {
+  const setIndex = (currIndex) => {
     let allPlayers = {...players};
-    setCurrPage(currPage);
-    setPageOfPlayers(allPlayers[currPage]);
+    setCurrIndex(currIndex);
+    setindexOfPlayers(allPlayers[currIndex]);
   }
 
   useEffect(() => {
@@ -27,19 +27,19 @@ function Players() {
           if (!allPlayersMap.hasOwnProperty(key)) allPlayersMap[key] = [player];
           else allPlayersMap[key].push(player)
         })
-        
-        const maxPages = Math.floor(Object.keys(allPlayersMap).length) - 1;
+
+        const maxIndexs = Math.floor(Object.keys(allPlayersMap).length) - 1;
 
         setPlayers(allPlayersMap);
-        setPageOfPlayers(allPlayersMap[0]);
-        setMaxPage(maxPages);
+        setindexOfPlayers(allPlayersMap[0]);
+        setMaxIndex(maxIndexs);
       })
       .catch(function(error) {
         console.log(error);
       })
   }, []);
 
-  const eachPlayer = pageOfPlayers.map((player, i) => {
+  const eachPlayer = indexOfPlayers.map((player, i) => {
     return (
       <p key={'player' + i}>Player Name: {player.CommonName} - {player.MatchName} - {player.BirthCountry}</p>
     )
@@ -50,9 +50,9 @@ function Players() {
     <div className={classes.Players}>
       { eachPlayer }
       <Pagination
-        click={setPage}
-        currIndex={currPage}
-        maxIndex={maxPage} />
+        click={setIndex}
+        currIndex={currIndex}
+        maxIndex={maxIndex} />
     </div>
   )
 }
