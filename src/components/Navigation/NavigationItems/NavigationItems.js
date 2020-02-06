@@ -8,6 +8,7 @@ function NavigationItems () {
     <div className={classes.NavigationItems}>
       <Link to='/'>Home</Link>
       <Link to='/players'>Players</Link>
+      <Link to='/teams'>Teams</Link>
       <Link to='/contact'>Contact Us</Link>
     </div>
   )
