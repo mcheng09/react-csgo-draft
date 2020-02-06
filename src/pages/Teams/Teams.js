@@ -27,7 +27,8 @@ function Teams() {
           if (!allTeamsMap.hasOwnProperty(key)) allTeamsMap[key] = [team];
           else allTeamsMap[key].push(team)
         })
-        const maxPages = Math.floor(allTeams.length / 10);
+
+        const maxPages = Math.floor(Object.keys(allTeamsMap).length) - 1;
 
         setTeams(allTeamsMap);
         setPageOfTeams(allTeamsMap[0]);

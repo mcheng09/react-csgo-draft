@@ -27,7 +27,8 @@ function Players() {
           if (!allPlayersMap.hasOwnProperty(key)) allPlayersMap[key] = [player];
           else allPlayersMap[key].push(player)
         })
-        const maxPages = Math.floor(allPlayers.length / 10);
+        
+        const maxPages = Math.floor(Object.keys(allPlayersMap).length) - 1;
 
         setPlayers(allPlayersMap);
         setPageOfPlayers(allPlayersMap[0]);

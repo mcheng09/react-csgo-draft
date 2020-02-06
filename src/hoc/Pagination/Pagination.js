@@ -7,7 +7,7 @@ function Pagination (props) {
   const numBtns = () => {
     const btns = [];
     if (props.maxIndex < 10) {
-      for (let i = 0; i < props.maxIndex; i++) {
+      for (let i = 0; i <= props.maxIndex; i++) {
         btns.push(<button
           key={'button' + i}
           onClick={() => props.click(i)}
@@ -29,7 +29,6 @@ function Pagination (props) {
     }
     return btns;
   }
-  console.log({props})
 
   return (
     <div className={classes.Pagination}>
