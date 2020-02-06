@@ -6,14 +6,14 @@ import classes from './Teams.module.scss';
 
 function Teams() {
   const [teams, setTeams] = useState([]);
-  const [pageOfTeams, setPageOfTeams] = useState([]);
-  const [currPage, setCurrPage] = useState(0);
-  const [maxPage, setMaxPage] = useState(0);
+  const [indexOfTeams, setIndexOfTeams] = useState([]);
+  const [currIndex, setCurrIndex] = useState(0);
+  const [maxIndex, setMaxIndex] = useState(0);
 
-  const setPage = (currPage) => {
+  const setPage = (currIndex) => {
     let allTeams = {...teams};
-    setCurrPage(currPage);
-    setPageOfTeams(allTeams[currPage]);
+    setCurrIndex(currIndex);
+    setIndexOfTeams(allTeams[currIndex]);
   }
 
   useEffect(() => {
@@ -28,18 +28,18 @@ function Teams() {
           else allTeamsMap[key].push(team)
         })
 
-        const maxPages = Math.floor(Object.keys(allTeamsMap).length) - 1;
+        const maxIndex = Math.floor(Object.keys(allTeamsMap).length) - 1;
 
         setTeams(allTeamsMap);
-        setPageOfTeams(allTeamsMap[0]);
-        setMaxPage(maxPages);
+        setIndexOfTeams(allTeamsMap[0]);
+        setMaxIndex(maxIndex);
       })
       .catch(function(error) {
         console.log(error);
       })
   }, []);
 
-  const eachTeam = pageOfTeams.map((team, i) => {
+  const eachTeam = indexOfTeams.map((team, i) => {
     return (
       <p key={'team' + i}>Team Name: {team.Name} - {team.AreaName} - {team.Founded}</p>
     )
@@ -51,8 +51,8 @@ function Teams() {
       { eachTeam }
       <Pagination
         click={setPage}
-        currIndex={currPage}
-        maxIndex={maxPage} />
+        currIndex={currIndex}
+        maxIndex={maxIndex} />
     </div>
   )
 }
