@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import SearchBar from './../../components/SearchBar/SearchBar'
 import Pagination from './../../hoc/Pagination/Pagination'
 import classes from './Players.module.scss';
 
@@ -48,6 +49,7 @@ function Players() {
 
   return (
     <div className={classes.Players}>
+      <SearchBar />
       { eachPlayer }
       <Pagination
         click={setIndex}
