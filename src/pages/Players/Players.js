@@ -22,18 +22,21 @@ function Players() {
     setCurrIndex(currIndex);
   }
 
+  const mapPlayers = (players) => {
+    const map = {};
+    players.forEach((player, i) => {
+      let key = Math.floor(i / 10);
+      if (!map.hasOwnProperty(key)) map[key] = [player];
+      else map[key].push(player)
+    })
+    return map;
+  }
+
   useEffect(() => {
     axios.get('https://api.sportsdata.io/v3/csgo/scores/json/Players?key=47d152dbd924490bbf6f6d8fae797690')
       .then(function(res) {
         const allPlayers = [...res.data];
-        const allPlayersMap = {};
-
-        allPlayers.forEach((player, i) => {
-          let key = Math.floor(i / 10);
-          if (!allPlayersMap.hasOwnProperty(key)) allPlayersMap[key] = [player];
-          else allPlayersMap[key].push(player)
-        })
-
+        const allPlayersMap = mapPlayers(allPlayers);
         const maxIndexs = Math.floor(Object.keys(allPlayersMap).length) - 1;
 
         setPlayers(allPlayers);
@@ -41,28 +44,21 @@ function Players() {
         setMaxIndex(maxIndexs);
         setSearchResults(allPlayersMap[0]);
       })
-      .catch(function(error) {
-        console.log(error);
-      })
   }, []);
 
   useEffect(() => {
+    const filterPlayersHelper = (players) => {
+      return players.filter(player => {
+        if (player.MatchName) {
+          return player.MatchName.toLowerCase().includes(searchTerm)
+        }
+        return null;
+      })
+    }
+
     const allPlayers = [...players];
-    const resultsMap = {};
-
-    const results = allPlayers.filter(player => {
-      if (player.MatchName) {
-        return player.MatchName.toLowerCase().includes(searchTerm)
-      }
-      return null;
-    });
-
-    results.forEach((result, i) => {
-      let key = Math.floor(i / 10);
-      if (!resultsMap.hasOwnProperty(key)) resultsMap[key] = [result];
-      else resultsMap[key].push(result)
-    })
-
+    const results = filterPlayersHelper(allPlayers);
+    const resultsMap = mapPlayers(results);
     const maxIndexs = Math.floor(Object.keys(resultsMap).length) - 1;
 
     setPlayersMap(resultsMap);
@@ -70,7 +66,7 @@ function Players() {
     setCurrIndex(0);
     setSearchResults(results.splice(0, 10))
 
-  }, [searchTerm])
+  }, [searchTerm, players])
 
   const eachPlayer = searchResults.map((player, i) => {
     return (
