@@ -7,7 +7,7 @@ import classes from './Players.module.scss';
 
 function Players() {
   const [players, setPlayers] = useState([]);
-  const [indexOfPlayers, setindexOfPlayers] = useState([]);
+  const [playersMap, setPlayersMap] = useState([]);
   const [currIndex, setCurrIndex] = useState(0);
   const [maxIndex, setMaxIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
@@ -18,9 +18,8 @@ function Players() {
   }
 
   const setIndex = (currIndex) => {
-    let allPlayers = {...players};
+    setSearchResults(playersMap[currIndex])
     setCurrIndex(currIndex);
-    setindexOfPlayers(allPlayers[currIndex]);
   }
 
   useEffect(() => {
@@ -38,8 +37,9 @@ function Players() {
         const maxIndexs = Math.floor(Object.keys(allPlayersMap).length) - 1;
 
         setPlayers(allPlayers);
-        setindexOfPlayers(allPlayersMap[0]);
+        setPlayersMap(allPlayersMap);
         setMaxIndex(maxIndexs);
+        setSearchResults(allPlayersMap[0]);
       })
       .catch(function(error) {
         console.log(error);
@@ -48,46 +48,47 @@ function Players() {
 
   useEffect(() => {
     const allPlayers = [...players];
-    const results = players.filter(player => {
+    const resultsMap = {};
+
+    const results = allPlayers.filter(player => {
       if (player.MatchName) {
         return player.MatchName.toLowerCase().includes(searchTerm)
       }
+      return null;
     });
-    setSearchResults(results)
+
+    results.forEach((result, i) => {
+      let key = Math.floor(i / 10);
+      if (!resultsMap.hasOwnProperty(key)) resultsMap[key] = [result];
+      else resultsMap[key].push(result)
+    })
+
+    const maxIndexs = Math.floor(Object.keys(resultsMap).length) - 1;
+
+    setPlayersMap(resultsMap);
+    setMaxIndex(maxIndexs);
+    setCurrIndex(0);
+    setSearchResults(results.splice(0, 10))
+
   }, [searchTerm])
 
-  const eachPlayer = indexOfPlayers.map((player, i) => {
+  const eachPlayer = searchResults.map((player, i) => {
     return (
       <p key={'player' + i}>Player Name: {player.CommonName} - {player.MatchName} - {player.BirthCountry}</p>
     )
-  })
-
-  const searchedPlayer = searchResults.map(item => {
-    return (
-      <li>Gamer Name: {item.MatchName}</li>
-    )
-  })
-
+  });
 
   return (
     <div className={classes.Players}>
-      <input
-        type='text'
-        placeholder='Search'
-        onChange={searchPlayer}
-        value={searchTerm} />
       <SearchBar
         searchTerm={searchPlayer} />
       { eachPlayer }
-
-      {searchedPlayer}
+      <Pagination
+        click={setIndex}
+        currIndex={currIndex}
+        maxIndex={maxIndex} />
     </div>
   )
 }
 
 export default Players;
-
-// <Pagination
-//   click={setIndex}
-//   currIndex={currIndex}
-//   maxIndex={maxIndex} />
