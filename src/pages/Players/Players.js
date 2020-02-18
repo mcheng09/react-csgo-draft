@@ -74,11 +74,13 @@ function Players() {
     )
   });
 
+  const noResultsMsg = <div>Unable to find player tag.</div>;
+
   return (
     <div className={classes.Players}>
       <SearchBar
         searchTerm={searchPlayer} />
-      { eachPlayer }
+      { eachPlayer.length > 0 ? eachPlayer : noResultsMsg }
       <Pagination
         click={setIndex}
         currIndex={currIndex}
