@@ -9,7 +9,7 @@ function Navigation() {
     <nav className={classes.Navigation}>
       <Link to='/' className={classes.Logo}>CSGO Draft</Link>
       <NavigationItems />
-      <div></div>
+      <Link to='/' className={classes.Logo}>CSGO Draft</Link>
     </nav>
   )
 }
